@@ -16,7 +16,7 @@ interface RelationalMapProps {
   };
 }
 
-const RelationalMap: React.FC<RelationalMapProps> = ({ 
+const RelationalMap: React.FC<RelationalMapProps> = ({
   people, selectedId, onSelect, onMove, filter, isOverview = false, settings = { showSupportStats: true, showInteractionMarkers: true }
 }) => {
   const filteredPeople = people.filter(p => filter === 'All' || p.group === filter);
@@ -78,7 +78,7 @@ const RelationalMap: React.FC<RelationalMapProps> = ({
       // Use absolute value to handle future mock dates gracefully (as 'recent')
       const diffTime = Math.abs(now.getTime() - date.getTime());
       const diffDays = diffTime / (1000 * 60 * 60 * 24);
-      
+
       // We scale linearly from 0 to 60 days. Anything over 60 days gets minSize.
       const factor = Math.max(0, 1 - (diffDays / 60));
       return minSize + (maxSize - minSize) * factor;
@@ -88,23 +88,23 @@ const RelationalMap: React.FC<RelationalMapProps> = ({
   };
 
   return (
-    <div 
+    <div
       className="flex-1 w-full flex items-center justify-center bg-slate-50 overflow-hidden select-none"
       onClick={() => onSelect(null)}
     >
       <div className="relative w-full h-full flex items-center justify-center">
         {/* Rings */}
-        <div 
-          className={`relational-ring transition-all duration-500 ${isOverview ? 'border-indigo-300 border-2' : 'border-slate-200'}`} 
-          style={{ width: RING_RADII[Ring.INNER] * 2, height: RING_RADII[Ring.INNER] * 2 }} 
+        <div
+          className={`relational-ring transition-all duration-500 ${isOverview ? 'border-indigo-300 border-2' : 'border-slate-200'}`}
+          style={{ width: RING_RADII[Ring.INNER] * 2, height: RING_RADII[Ring.INNER] * 2 }}
         />
-        <div 
-          className={`relational-ring transition-all duration-500 ${isOverview ? 'border-indigo-300 border-2' : 'border-slate-200'}`} 
-          style={{ width: RING_RADII[Ring.MIDDLE] * 2, height: RING_RADII[Ring.MIDDLE] * 2 }} 
+        <div
+          className={`relational-ring transition-all duration-500 ${isOverview ? 'border-indigo-300 border-2' : 'border-slate-200'}`}
+          style={{ width: RING_RADII[Ring.MIDDLE] * 2, height: RING_RADII[Ring.MIDDLE] * 2 }}
         />
-        <div 
-          className={`relational-ring transition-all duration-500 ${isOverview ? 'border-indigo-300 border-2' : 'border-slate-200'}`} 
-          style={{ width: RING_RADII[Ring.OUTER] * 2, height: RING_RADII[Ring.OUTER] * 2 }} 
+        <div
+          className={`relational-ring transition-all duration-500 ${isOverview ? 'border-indigo-300 border-2' : 'border-slate-200'}`}
+          style={{ width: RING_RADII[Ring.OUTER] * 2, height: RING_RADII[Ring.OUTER] * 2 }}
         />
 
         {/* Labels */}
@@ -119,7 +119,7 @@ const RelationalMap: React.FC<RelationalMapProps> = ({
         </div>
 
         {/* Center Node */}
-        <div className="z-10 w-16 h-16 rounded-full bg-slate-900 border-4 border-white shadow-xl flex items-center justify-center text-white font-bold text-sm tracking-tight">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-16 h-16 rounded-full bg-slate-900 border-4 border-white shadow-xl flex items-center justify-center text-white font-bold text-sm tracking-tight">
           YOU
         </div>
 
@@ -129,7 +129,7 @@ const RelationalMap: React.FC<RelationalMapProps> = ({
             const coords = getCoordinates(i, ringPeople.length, RING_RADII[ring as Ring]);
             const stale = isStale(p.lastInteraction);
             const size = getPersonSize(p.lastInteraction);
-            
+
             return (
               <div
                 key={p.id}
@@ -148,7 +148,10 @@ const RelationalMap: React.FC<RelationalMapProps> = ({
                 style={{
                   width: `${size}px`,
                   height: `${size}px`,
-                  transform: `translate(calc(-50% + ${coords.x}px), calc(-50% + ${coords.y}px))`
+                  top: '50%',
+                  left: '50%',
+                  transform: `translate(calc(-50% + ${coords.x}px), calc(-50% + ${coords.y}px))`,
+                  zIndex: selectedId === p.id ? 50 : 20
                 }}
               >
                 {p.name}
@@ -162,7 +165,7 @@ const RelationalMap: React.FC<RelationalMapProps> = ({
           })
         ))}
       </div>
-      
+
       {/* Support Stats Overlay (Corner) */}
       {isOverview && settings.showSupportStats && (
         <div className="absolute top-4 left-4 bg-white/80 backdrop-blur-md p-3 rounded-xl border border-slate-200 shadow-sm animate-in fade-in slide-in-from-top-2 duration-300 z-20">
