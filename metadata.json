@@ -1,0 +1,7 @@
+{
+  "name": "RMI Relational Mediation Interface V0.7",
+  "description": "A research-grade relational mediation prototype focused on mapping social structures, emotional calibration, and non-replacing interventions.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
