@@ -86,21 +86,33 @@ const Conversation: React.FC<ConversationProps> = ({ messages, onSendMessage, on
                 {expandedExplain === `${msg.id}-${i}` && (
                   <p className="text-[11px] text-slate-500 mb-2 italic">{contact.reason}</p>
                 )}
-                <div className="flex gap-1.5">
-                  <button
-                    onClick={() => handleCopyScript(contact.scripts.short, `${msg.id}-${i}-short`)}
-                    className="flex-1 text-[11px] px-2 py-1.5 bg-white border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors flex items-center justify-center gap-1"
-                  >
-                    <Copy className="w-3 h-3" />
-                    {copiedScript === `${msg.id}-${i}-short` ? 'Copied!' : 'Short'}
-                  </button>
-                  <button
-                    onClick={() => handleCopyScript(contact.scripts.long, `${msg.id}-${i}-long`)}
-                    className="flex-1 text-[11px] px-2 py-1.5 bg-white border border-purple-200 rounded-lg hover:bg-purple-50 transition-colors flex items-center justify-center gap-1"
-                  >
-                    <Copy className="w-3 h-3" />
-                    {copiedScript === `${msg.id}-${i}-long` ? 'Copied!' : 'Detailed'}
-                  </button>
+                {/* Short script */}
+                <div className="mb-1.5 p-2 bg-white rounded-lg border border-purple-100">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] font-semibold text-purple-500 uppercase tracking-wide">Short</span>
+                    <button
+                      onClick={() => handleCopyScript(contact.scripts.short, `${msg.id}-${i}-short`)}
+                      className="text-[10px] text-purple-400 hover:text-purple-600 flex items-center gap-0.5 px-1.5 py-0.5 rounded hover:bg-purple-50 transition-colors"
+                    >
+                      <Copy className="w-2.5 h-2.5" />
+                      {copiedScript === `${msg.id}-${i}-short` ? 'Copied!' : 'Copy'}
+                    </button>
+                  </div>
+                  <p className="text-[11px] text-slate-600 italic">"{contact.scripts.short}"</p>
+                </div>
+                {/* Detailed script */}
+                <div className="p-2 bg-white rounded-lg border border-purple-100">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] font-semibold text-purple-500 uppercase tracking-wide">Detailed</span>
+                    <button
+                      onClick={() => handleCopyScript(contact.scripts.long, `${msg.id}-${i}-long`)}
+                      className="text-[10px] text-purple-400 hover:text-purple-600 flex items-center gap-0.5 px-1.5 py-0.5 rounded hover:bg-purple-50 transition-colors"
+                    >
+                      <Copy className="w-2.5 h-2.5" />
+                      {copiedScript === `${msg.id}-${i}-long` ? 'Copied!' : 'Copy'}
+                    </button>
+                  </div>
+                  <p className="text-[11px] text-slate-600 italic">"{contact.scripts.long}"</p>
                 </div>
                 {contact.lowBarrier && (
                   <p className="text-[10px] text-slate-400 mt-1.5 italic">💡 Low-barrier alternative: {contact.lowBarrier}</p>

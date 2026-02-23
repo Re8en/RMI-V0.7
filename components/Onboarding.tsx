@@ -12,7 +12,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
   const [step, setStep] = useState(1);
   const [setupPeople, setSetupPeople] = useState<Person[]>([]);
   const [isAdding, setIsAdding] = useState(false);
-  
+
   // Full form state for new person
   const [newName, setNewName] = useState('');
   const [newRing, setNewRing] = useState(Ring.INNER);
@@ -31,7 +31,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
   };
 
   const toggleSupport = (type: SupportType) => {
-    setNewSupportTypes(prev => 
+    setNewSupportTypes(prev =>
       prev.includes(type) ? prev.filter(t => t !== type) : [...prev, type]
     );
   };
@@ -49,7 +49,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
       lastInteraction: newLastInteraction || new Date().toISOString().split('T')[0],
       notes: 'Initial person added during setup'
     };
-    
+
     setSetupPeople([...setupPeople, newP]);
     // Reset form
     setNewName('');
@@ -70,10 +70,10 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
             </div>
             <h2 className="text-3xl font-bold text-slate-900 tracking-tight">Relational Mirror Interface (RMI)</h2>
             <div className="space-y-4 text-slate-600 max-w-sm">
-              <p>RMI helps you reflect on your social structure.</p>
+              <p>RMI helps you see your relationships more clearly.</p>
               <p>It does not replace relationships; it highlights patterns in how you connect.</p>
             </div>
-            <button 
+            <button
               onClick={nextStep}
               className="mt-8 px-10 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95"
             >
@@ -141,7 +141,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
               <p>RMI never sends messages or makes calls for you.</p>
               <p>It suggests possible actions; you choose whether to act.</p>
             </div>
-            
+
             <div className="w-full pt-8 space-y-4">
               <div className="flex items-center justify-center mb-4">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Initial Setup</span>
@@ -167,9 +167,9 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-2">
                       <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Name *</label>
-                      <input 
+                      <input
                         autoFocus
-                        type="text" 
+                        type="text"
                         value={newName}
                         onChange={e => setNewName(e.target.value)}
                         placeholder="e.g. Henry"
@@ -178,7 +178,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
                     </div>
                     <div>
                       <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Ring</label>
-                      <select 
+                      <select
                         value={newRing}
                         onChange={e => setNewRing(e.target.value as Ring)}
                         className="w-full bg-white border border-slate-200 rounded-lg px-2 py-2 text-sm outline-none text-slate-900 cursor-pointer hover:border-slate-300 transition-colors"
@@ -190,7 +190,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
                     </div>
                     <div>
                       <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Group</label>
-                      <select 
+                      <select
                         value={newGroup}
                         onChange={e => setNewGroup(e.target.value as Group)}
                         className="w-full bg-white border border-slate-200 rounded-lg px-2 py-2 text-sm outline-none text-slate-900 cursor-pointer hover:border-slate-300 transition-colors"
@@ -205,9 +205,9 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
                   <div>
                     <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Last Interaction</label>
                     <div className="relative">
-                      <input 
-                        type="text" 
-                        value={newLastInteraction} 
+                      <input
+                        type="text"
+                        value={newLastInteraction}
                         onChange={e => setNewLastInteraction(e.target.value)}
                         placeholder="yyyy-mm-dd"
                         className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 pl-9 text-sm outline-none focus:ring-2 focus:ring-indigo-500/20 text-slate-900 transition-shadow"
@@ -220,7 +220,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
                     <label className="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Support Types</label>
                     <div className="flex flex-wrap gap-1.5 mt-1.5">
                       {Object.values(SupportType).map(t => (
-                        <button 
+                        <button
                           key={t} type="button" onClick={() => toggleSupport(t)}
                           className={`text-[9px] px-2.5 py-1.5 rounded-md border font-bold transition-all ${newSupportTypes.includes(t) ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm shadow-indigo-100' : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100 hover:border-slate-300'}`}
                         >
@@ -231,14 +231,14 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
                   </div>
 
                   <div className="flex gap-2 pt-3">
-                    <button 
+                    <button
                       type="submit"
                       disabled={!newName.trim()}
                       className="flex-1 flex items-center justify-center gap-2 py-3 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 disabled:opacity-50 disabled:bg-indigo-300 transition-all shadow-lg shadow-indigo-100 active:scale-95"
                     >
                       <Check className="w-4 h-4" /> Save Person
                     </button>
-                    <button 
+                    <button
                       type="button"
                       onClick={() => {
                         setIsAdding(false);
@@ -258,8 +258,8 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
                     <p>This feature does not import contacts or involve external data synchronization. Instead, it invites you to manually tag individuals with whom you have recently interacted or who hold relational significance.</p>
                     <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-slate-900" />
                   </div>
-                  
-                  <button 
+
+                  <button
                     onClick={() => setIsAdding(true)}
                     className="w-full flex items-center justify-center gap-3 py-5 bg-white border-2 border-slate-100 rounded-3xl text-sm font-bold text-indigo-500/80 hover:text-indigo-600 hover:border-indigo-100 hover:bg-indigo-50/20 transition-all active:scale-[0.98] border-dashed"
                   >
@@ -271,16 +271,16 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
                   <Check className="w-3.5 h-3.5" /> Ready with {setupPeople.length} people!
                 </div>
               )}
-              
+
               {!isAdding && (
                 <div className="flex gap-4 pt-10">
-                  <button 
+                  <button
                     onClick={() => onComplete([])}
                     className="flex-1 py-3.5 bg-slate-50 text-slate-600 rounded-2xl font-bold hover:bg-slate-100 transition-all text-sm active:scale-95"
                   >
                     Start Empty
                   </button>
-                  <button 
+                  <button
                     onClick={() => onComplete(setupPeople.length > 0 ? setupPeople : INITIAL_PEOPLE)}
                     className="flex-1 py-3.5 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 shadow-xl shadow-indigo-100/30 transition-all text-sm active:scale-95"
                   >
@@ -302,9 +302,9 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
         {/* Progress Bar */}
         <div className="flex gap-2 mb-8 shrink-0">
           {[1, 2, 3, 4].map(s => (
-            <div 
-              key={s} 
-              className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${s <= step ? 'bg-indigo-600' : 'bg-slate-100'}`} 
+            <div
+              key={s}
+              className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${s <= step ? 'bg-indigo-600' : 'bg-slate-100'}`}
             />
           ))}
         </div>
@@ -317,16 +317,16 @@ const Onboarding: React.FC<OnboardingProps> = ({ onComplete }) => {
         {/* Navigation */}
         <div className="flex items-center justify-between pt-4 shrink-0">
           {step > 1 && step < totalSteps ? (
-            <button 
+            <button
               onClick={prevStep}
               className="flex items-center gap-1 text-sm font-bold text-slate-400 hover:text-slate-600 transition-colors"
             >
               <ChevronLeft className="w-4 h-4" /> Back
             </button>
           ) : <div />}
-          
+
           {step > 1 && step < totalSteps && (
-            <button 
+            <button
               onClick={nextStep}
               className="flex items-center gap-1 text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-colors"
             >
