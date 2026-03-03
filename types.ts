@@ -82,6 +82,7 @@ export interface AIResponse {
   boundary_flags: boolean;
   safety_flags: RiskLevel;
   explain_card?: string;
+  detected_names?: string[]; // Names detected by AI in user messages
 }
 
 export interface ChatMessage {

@@ -197,7 +197,7 @@ const App: React.FC = () => {
     const f3 = Math.min(1, intensityCount / window.length);
 
     let maxRep = 0;
-    Object.values(keywordMap).forEach(v => { if (v > maxRep) v = v; });
+    Object.values(keywordMap).forEach(v => { if (v > maxRep) maxRep = v; });
     const f4 = maxRep >= 3 ? 1 : maxRep / 3;
 
     const signalNorm = (f1 + f2 + f3 + f4) / 4;

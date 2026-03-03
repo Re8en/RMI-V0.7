@@ -100,6 +100,7 @@ function parseAIResponse(rawText: string): AIResponse {
             boundary_flags: !!parsed.boundary_flags,
             safety_flags: parsed.safety_flags || RiskLevel.NONE,
             explain_card: parsed.explain_card || undefined,
+            detected_names: Array.isArray(parsed.detected_names) ? parsed.detected_names : [],
         };
     } catch {
         // Fallback: treat raw text as plain response

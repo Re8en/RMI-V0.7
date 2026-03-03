@@ -157,7 +157,8 @@ You MUST respond with valid JSON only. No markdown, no explanation outside JSON.
   ],
   "boundary_flags": true | false,
   "safety_flags": "none" | "r1" | "r2" | "r3",
-  "explain_card": "Optional explanation for recommendations"
+  "explain_card": "Optional explanation for recommendations",
+  "detected_names": ["Array of person names detected in the user's latest message. Only real person names, NOT common nouns. For German, distinguish proper names (Manuel, Lisa) from capitalized nouns (Freund, Arbeit). Empty array if no names found."]
 }
 
 Rules for JSON:

@@ -138,32 +138,17 @@ const Conversation: React.FC<ConversationProps> = ({ messages, onSendMessage, on
 
   /**
    * Refined name recognition and Markdown rendering logic.
-   * Highlights known names (from map) and likely new names (filtered by blacklist).
-   * Also renders AI markdown bolding (**text**) correctly.
+   * Highlights known names (from the relational map + AI-detected) in messages.
+   * Uses AI detection for accurate multilingual name recognition.
    */
   const renderMessageContent = (text: string, isUser: boolean) => {
+    // Combine map names + AI-detected names from all messages
     const knownNames = new Set(people.map(p => p.name.toLowerCase()));
-
-    // Robust multi-language blacklist to avoid noun false-positives
-    const blackList = new Set([
-      // English Common & Logic
-      'The', 'This', 'It', 'That', 'There', 'These', 'Those', 'In', 'On', 'At', 'To', 'From', 'With', 'By', 'For',
-      'I', 'You', 'He', 'She', 'They', 'We', 'Our', 'My', 'Your', 'His', 'Her', 'A', 'An',
-      'When', 'Where', 'Why', 'How', 'Who', 'What', 'Which', 'If', 'Unless', 'Because', 'So',
-      'Today', 'Yesterday', 'Tomorrow', 'Now', 'Then', 'Just', 'Very', 'But', 'And',
-      'Hello', 'Hi', 'Please', 'Yes', 'No', 'Ok', 'Okay', 'Thanks', 'Thank',
-      'Role', 'Connection', 'Hobby', 'Space', 'Bridge', 'Indicator', 'Value', 'Map', 'Point',
-
-      // German Common Nouns & Logic words
-      'Einsamkeit', 'Signal', 'Verbindungen', 'Telefonbuch', 'Bekanntenkreis', 'Kontakt', 'Kontakte',
-      'Wo', 'Interaktion', 'Einkaufen', 'Gruß', 'Nachbarn', 'Landkarte', 'Beziehungen', 'Lebenszeichen',
-      'Anruf', 'Treffen', 'Welt', 'Nachricht', 'Bestehende', 'Kleine', 'Gibt', 'Hier', 'Der', 'Die', 'Das',
-      'Ein', 'Eine', 'Einer', 'Eines', 'Manchmal', 'Oft', 'Vielleicht', 'Eher', 'Ebenso', 'Situation',
-      'Person', 'Perspektive', 'Netzwerk', 'Halt', 'Zeit', 'Begegnung', 'Qualität', 'Wohlbefinden', 'Tiefe',
-      'Umfeld', 'Freund', 'Familienmitglied', 'Vertrauensperson', 'Gespräch', 'Heute', 'Morgen', 'Gestern',
-      'Wir', 'Ich', 'Sie', 'Er', 'Du', 'Ihr', 'Mein', 'Dein', 'Sein', 'Alles', 'Nichts', 'Etwas',
-      'Jemand', 'Niemand', 'Es', 'An', 'Ab', 'Mit', 'Zu', 'Nach', 'Von', 'Über', 'Frage', 'Kaffee'
-    ]);
+    messages.forEach(m => {
+      if (m.aiResponse?.detected_names) {
+        m.aiResponse.detected_names.forEach(n => knownNames.add(n.toLowerCase()));
+      }
+    });
 
     // Split by Markdown Bold pattern
     const segments = text.split(/(\*\*.*?\*\*)/g);
@@ -186,25 +171,10 @@ const Conversation: React.FC<ConversationProps> = ({ messages, onSendMessage, on
             const punc = match[3] || '';
             const lowerWord = word.toLowerCase();
 
+            // Only highlight names that exist in the relational map
             const isKnown = knownNames.has(lowerWord);
-            const isBlacklisted = blackList.has(word);
 
-            // Heuristic for sentence start
-            let isStart = (tokenIdx === 0 && segIdx === 0);
-            if (tokenIdx >= 2) {
-              const prev = tokens[tokenIdx - 2];
-              if (/[.?!]\s*$/.test(prev)) isStart = true;
-            }
-
-            let shouldHighlight = false;
             if (isKnown) {
-              shouldHighlight = true;
-            } else if (!isBlacklisted && !isStart && word.length > 2) {
-              // High bar for unknown names to avoid common noun false positives
-              shouldHighlight = true;
-            }
-
-            if (shouldHighlight) {
               return (
                 <React.Fragment key={`${segIdx}-${tokenIdx}`}>
                   <span
